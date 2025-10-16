@@ -1,0 +1,23 @@
+/* Custom styles for the sales summary application */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+h1 {
+  color: #343a40;
+  margin-bottom: 1.5rem;
+}
+
+#total-sales {
+  transition: all 0.3s ease;
+}
+
+.alert {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
