@@ -82,6 +82,7 @@ function parseCsv(text) {
 async function processSalesData() {
   const totalSalesElement = document.getElementById('total-sales');
   const errorMessageElement = document.getElementById('error-message');
+  const productSalesTable = document.getElementById('product-sales').getElementsByTagName('tbody')[0];
   
   try {
     // Attachment URL from the brief
@@ -116,9 +117,13 @@ async function processSalesData() {
     
     // Find sales column (case-insensitive)
     let salesColumnIndex = -1;
+    let productColumnIndex = -1;
     if (headers) {
       salesColumnIndex = headers.findIndex(header => 
         header.toLowerCase().includes('sales') || header.toLowerCase().includes('sale')
+      );
+      productColumnIndex = headers.findIndex(header => 
+        header.toLowerCase().includes('product')
       );
     }
     
@@ -127,18 +132,39 @@ async function processSalesData() {
       salesColumnIndex = 1;
     }
     
-    // Calculate total sales
+    // If no header or product column not found, assume first column
+    if (productColumnIndex === -1) {
+      productColumnIndex = 0;
+    }
+    
+    // Calculate total sales and populate product sales table
     let totalSales = 0;
+    productSalesTable.innerHTML = '';
+    
     for (const row of rows) {
-      if (row.length > salesColumnIndex) {
+      if (row.length > Math.max(salesColumnIndex, productColumnIndex)) {
+        const product = row[productColumnIndex];
         const value = parseFloat(row[salesColumnIndex]);
+        
         if (!isNaN(value)) {
           totalSales += value;
+          
+          // Add row to product sales table
+          const tr = document.createElement('tr');
+          const productTd = document.createElement('td');
+          const salesTd = document.createElement('td');
+          
+          productTd.textContent = product;
+          salesTd.textContent = value.toFixed(2);
+          
+          tr.appendChild(productTd);
+          tr.appendChild(salesTd);
+          productSalesTable.appendChild(tr);
         }
       }
     }
     
-    // Display result
+    // Display total sales
     totalSalesElement.textContent = totalSales.toFixed(2);
     totalSalesElement.classList.add('text-success');
     
