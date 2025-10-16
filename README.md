@@ -8,7 +8,7 @@ No setup required. Simply open `index.html` in a modern web browser.
 
 ## Usage
 
-The application automatically loads and processes the sales data from the provided CSV attachment. The total sales amount is displayed in the main content area.
+The application automatically loads and processes the sales data from the provided CSV attachment. The total sales amount is displayed in the main content area along with a detailed breakdown by product.
 
 ## License
 
